@@ -64,6 +64,9 @@ func (u *{{StructName}}Model) Insert({{StructLcName}} *{{StructName}}) (err erro
 	dbConn := DB.GetDB({{StructDB}})
 	affected, err := dbConn.Insert({{StructLcName}})
 	defer dbConn.Close()
+	if err != nil {
+		return err
+	}
 	if affected < 1 {
 		err = errors.New("插入影响行数: 0" )
 		return err
