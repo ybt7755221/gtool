@@ -13,12 +13,12 @@ type {{StructName}}Service struct {
  * 根据多条件查询数据
  */
 func (c *{{StructName}}Service) Find(conditions *et.{{StructName}}, pagination *et.Pagination) (*et.{{StructName}}PageDao, error) {
-	{{StructFcName}}Model := models.{{StructName}}Model{}
-	{{StructFcName}}Page, err := {{StructFcName}}Model.Find(conditions, pagination)
+	{{StructLcName}}Model := models.{{StructName}}Model{}
+	{{StructLcName}}Page, err := {{StructLcName}}Model.Find(conditions, pagination)
 	if err != nil {
 		return nil, errg
 	}
-	return {{StructFcName}}Page, nil
+	return {{StructLcName}}Page, nil
 }
 
 func (c *{{StructName}}Service) FindById(id int) (*et.{{StructName}}, error) {

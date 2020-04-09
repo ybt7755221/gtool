@@ -3,12 +3,12 @@ package templates
 var RouterTpl = `package router
 
 import (
-	"gpi/controllers"
+	. "gpi/controllers"
 	"github.com/gin-gonic/gin"
 )
 
 func {{StructFcName}}Router(router *gin.Engine) {
-	{{StructFcName}} := controllers.{{StructName}}Controller{}
+	{{StructFcName}} := {{StructName}}Controller{}
 	{{StructFcName}}R := router.Group("{{StructRoute}}")
 	{
 		{{StructFcName}}R.GET("/", {{StructFcName}}.Find)
