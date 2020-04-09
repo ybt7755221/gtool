@@ -16,7 +16,7 @@ func (c *{{StructName}}Service) Find(conditions *et.{{StructName}}, pagination *
 	{{StructLcName}}Model := models.{{StructName}}Model{}
 	{{StructLcName}}Page, err := {{StructLcName}}Model.Find(conditions, pagination)
 	if err != nil {
-		return nil, errg
+		return nil, err
 	}
 	return {{StructLcName}}Page, nil
 }
