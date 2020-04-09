@@ -22,12 +22,13 @@ type {{StructName}}Controller struct {
 // @Success 200 {object} SgrResp
 // @Router /{{StructRoute}} [get]
 func (c *{{StructName}}Controller) Find(ctx *gin.Context) {
-	fieldsArr := []string{}
-	//处理分页参数
-	params := getPagingParams(ctx)
-	//处理查询条件
-	params["conditions"] = getParams(ctx, fieldsArr, et.{{StructName}}{})
-	{{StructFcName}}List, err := c.serv.Find(params)
+	{{StructFcName}} := new(et.{{StructName}})
+	getParamsNew(ctx, {{StructFcName}})
+	pagination := new(et.Pagination)
+	pagination.PageNum, _ = strconv.Atoi(ctx.Query("page_num"))
+	pagination.PageSize, _ = strconv.Atoi(ctx.Query("page_size"))
+	pagination.SortStr = ctx.Query("sort")
+	{{StructFcName}}List, err := c.serv.Find({{StructFcName}}, pagination)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 		return
