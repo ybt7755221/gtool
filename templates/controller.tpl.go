@@ -36,13 +36,37 @@ func (c *{{StructName}}Controller) Find(ctx *gin.Context) {
 	resSuccess(ctx, {{StructFcName}}List)
 }
 // @Tags {{StructRoute}}表操作
+// @Summary 【GetAll】根据条件获取信息
+// @Description 根据条件获取信息
+// @Accept html
+// @Produce json
+// @Param	page_num	query 	int		false	"页数，默认1"
+// @Param	page_size	query 	int		false	"每夜条数，默认50"
+// @Param	sort		query 	string	false	"排序。id desc, time asc"
+// @Success 200 {object} SgrResp
+// @Router /{{StructRoute}}/page [get]
+func (c *{{StructName}}Controller) FindPaging(ctx *gin.Context) {
+	{{StructFcName}} := new(et.{{StructName}})
+	getParamsNew(ctx, {{StructFcName}})
+	pagination := new(et.Pagination)
+	pagination.PageNum, _ = strconv.Atoi(ctx.Query("page_num"))
+	pagination.PageSize, _ = strconv.Atoi(ctx.Query("page_size"))
+	pagination.SortStr = ctx.Query("sort")
+	{{StructFcName}}List, err := c.serv.FindPaging({{StructFcName}}, pagination)
+	if err != nil {
+		resError(ctx, et.EntityFailure, err.Error())
+		return
+	}
+	resSuccess(ctx, {{StructFcName}}List)
+}
+// @Tags {{StructRoute}}表操作
 // @Summary 【GetOne】根据id获取信息
 // @Description 根据id获取信息
 // @Accept html
 // @Produce json
 // @Param   id		path	string 	false	"主键id"
 // @Success 200 {object} SgrResp
-// @Router /{{StructRoute}}/{id} [get]
+// @Router /{{StructRoute}}/find-by-id/{id} [get]
 func (c *{{StructName}}Controller) FindById(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Param("id"))
 	{{StructFcName}}, err := c.serv.FindById(id)

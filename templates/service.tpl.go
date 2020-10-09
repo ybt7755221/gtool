@@ -12,9 +12,21 @@ type {{StructName}}Service struct {
 /**
  * 根据多条件查询数据
  */
-func (c *{{StructName}}Service) Find(conditions *et.{{StructName}}, pagination *et.Pagination) (*et.{{StructName}}PageDao, error) {
+func (c *{{StructName}}Service) Find(conditions *et.{{StructName}}, pagination *et.Pagination) ([]et.{{StructName}}, error) {
 	{{StructLcName}}Model := models.{{StructName}}Model{}
 	{{StructLcName}}Page, err := {{StructLcName}}Model.Find(conditions, pagination)
+	if err != nil {
+		return nil, err
+	}
+	return {{StructLcName}}Page, nil
+}
+
+/**
+ * 根据多条件查询数据-分页
+ */
+func (c *{{StructName}}Service) FindPaging(conditions *et.{{StructName}}, pagination *et.Pagination) (*et.{{StructName}}PageDao, error) {
+	{{StructLcName}}Model := models.{{StructName}}Model{}
+	{{StructLcName}}Page, err := {{StructLcName}}Model.FindPaging(conditions, pagination)
 	if err != nil {
 		return nil, err
 	}

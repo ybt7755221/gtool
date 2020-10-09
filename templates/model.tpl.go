@@ -13,7 +13,36 @@ import (
 type {{StructName}}Model struct {
 }
 //查找多条数据
-func(u *{{StructName}}Model) Find(conditions *{{StructName}}, pagination *Pagination )  (*{{StructName}}PageDao, error) {
+func(u *{{StructName}}Model) Find(conditions *{{StructName}}, pagination *Pagination )  ([]{{StructName}}, error) {
+	dbConn := DB.GetDB({{StructDB}})
+	defer dbConn.Close()
+	//获取分页信息
+	pageinfo := getPagingParams(pagination)
+	limit := pageinfo["limit"].(int)
+	offset := pageinfo["offset"].(int)
+	dbC := dbConn.Limit(limit, offset)
+	defer dbC.Close()
+	{{StructLcName}}Page := new({{StructName}}PageDao)
+	{{StructLcName}}Page.PageNum = pagination.PageNum
+	{{StructLcName}}Page.PageSize = pagination.PageSize
+	//排序
+	sort := pageinfo["sort"].(map[string]string)
+	if len(sort) > 0 {
+		for key, val := range sort{
+			if strings.ToLower(val) == "asc" {
+				dbC = dbC.Asc(key)
+			}else{
+				dbC = dbC.Desc(key)
+			}
+		}
+	}
+	//执行查找
+	err := dbC.Find(&{{StructLcName}}Page.List, conditions)
+	return {{StructLcName}}Page.List, err
+}
+
+//查找多条数据-分页
+func(u *{{StructName}}Model) FindPaging(conditions *{{StructName}}, pagination *Pagination )  (*{{StructName}}PageDao, error) {
 	dbConn := DB.GetDB({{StructDB}})
 	defer dbConn.Close()
 	//获取分页信息
