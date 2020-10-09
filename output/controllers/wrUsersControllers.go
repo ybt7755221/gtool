@@ -1,6 +1,4 @@
-package templates
-
-var ControllerTpl = `package controllers
+package controllers
 
 import (
 	et "gpi/entities"
@@ -8,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"strconv"
 )
-type {{StructName}}Controller struct {
-	serv *service.{{StructName}}Service
+type WrUsersController struct {
+	serv *service.WrUsersService
 }
 // @Tags user表操作
 // @Summary 【GetOne】根据条件获取单条数据
@@ -18,17 +16,17 @@ type {{StructName}}Controller struct {
 // @Produce json
 // @Success 200 {object} SgrResp
 // @Router /user/one [get]
-func (c *{{StructName}}Controller) FindOne(ctx *gin.Context) {
-	{{StructFcName}} := new(et.{{StructName}})
-	getParamsNew(ctx, {{StructFcName}})
-	res, err := c.serv.FindOne({{StructFcName}})
+func (c *WrUsersController) FindOne(ctx *gin.Context) {
+	wrUsers := new(et.WrUsers)
+	getParamsNew(ctx, WrUsers)
+	res, err := c.serv.FindOne(wrUsers)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 	}else{
 		resSuccess(ctx, res)
 	}
 }
-// @Tags {{StructRoute}}表操作
+// @Tags user表操作
 // @Summary 【GetAll】根据条件获取信息
 // @Description 根据条件获取信息
 // @Accept html
@@ -37,22 +35,22 @@ func (c *{{StructName}}Controller) FindOne(ctx *gin.Context) {
 // @Param	page_size	query 	int		false	"每夜条数，默认50"
 // @Param	sort		query 	string	false	"排序 {\"id\":\"desc\"}"
 // @Success 200 {object} SgrResp
-// @Router /{{StructRoute}} [get]
-func (c *{{StructName}}Controller) Find(ctx *gin.Context) {
-	{{StructFcName}} := new(et.{{StructName}})
-	getParamsNew(ctx, {{StructFcName}})
+// @Router /user [get]
+func (c *WrUsersController) Find(ctx *gin.Context) {
+	wrUsers := new(et.WrUsers)
+	getParamsNew(ctx, wrUsers)
 	pagination := new(et.Pagination)
 	pagination.PageNum, _ = strconv.Atoi(ctx.Query("page_num"))
 	pagination.PageSize, _ = strconv.Atoi(ctx.Query("page_size"))
 	pagination.SortStr = ctx.Query("sort")
-	{{StructFcName}}List, err := c.serv.Find({{StructFcName}}, pagination)
+	wrUsersList, err := c.serv.Find(wrUsers, pagination)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 		return
 	}
-	resSuccess(ctx, {{StructFcName}}List)
+	resSuccess(ctx, wrUsersList)
 }
-// @Tags {{StructRoute}}表操作
+// @Tags user表操作
 // @Summary 【GetAll】根据条件获取信息
 // @Description 根据条件获取信息
 // @Accept html
@@ -61,67 +59,67 @@ func (c *{{StructName}}Controller) Find(ctx *gin.Context) {
 // @Param	page_size	query 	int		false	"每夜条数，默认50"
 // @Param	sort		query 	string	false	"排序 {\"id\":\"desc\"}"
 // @Success 200 {object} SgrResp
-// @Router /{{StructRoute}}/page [get]
-func (c *{{StructName}}Controller) FindPaging(ctx *gin.Context) {
-	{{StructFcName}} := new(et.{{StructName}})
-	getParamsNew(ctx, {{StructFcName}})
+// @Router /user/page [get]
+func (c *WrUsersController) FindPaging(ctx *gin.Context) {
+	wrUsers := new(et.WrUsers)
+	getParamsNew(ctx, wrUsers)
 	pagination := new(et.Pagination)
 	pagination.PageNum, _ = strconv.Atoi(ctx.Query("page_num"))
 	pagination.PageSize, _ = strconv.Atoi(ctx.Query("page_size"))
 	pagination.SortStr = ctx.Query("sort")
-	{{StructFcName}}List, err := c.serv.FindPaging({{StructFcName}}, pagination)
+	wrUsersList, err := c.serv.FindPaging(wrUsers, pagination)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 		return
 	}
-	resSuccess(ctx, {{StructFcName}}List)
+	resSuccess(ctx, wrUsersList)
 }
-// @Tags {{StructRoute}}表操作
+// @Tags user表操作
 // @Summary 【GetOne】根据id获取信息
 // @Description 根据id获取信息
 // @Accept html
 // @Produce json
 // @Param   id		path	string 	false	"主键id"
 // @Success 200 {object} SgrResp
-// @Router /{{StructRoute}}/find-by-id/{id} [get]
-func (c *{{StructName}}Controller) FindById(ctx *gin.Context) {
+// @Router /user/find-by-id/{id} [get]
+func (c *WrUsersController) FindById(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Param("id"))
-	{{StructFcName}}, err := c.serv.FindById(id)
+	wrUsers, err := c.serv.FindById(id)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 	}else{
-		resSuccess(ctx, {{StructFcName}})
+		resSuccess(ctx, wrUsers)
 	}
 }
-// @Tags {{StructRoute}}表操作
-// @Summary 【create】创建{{StructRoute}}信息
-// @Description 创建{{StructRoute}}信息
+// @Tags user表操作
+// @Summary 【create】创建user信息
+// @Description 创建user信息
 // @Accept x-www-form-urlencoded
 // @Produce json
 // @Success 200 {object} SgrResp
-// @Router /{{StructRoute}} [post]
-func (c *{{StructName}}Controller) Create(ctx *gin.Context) {
-	{{StructFcName}} := new(et.{{StructName}})
-	getPostStructData(ctx, {{StructFcName}})
-	if err := c.serv.Insert({{StructFcName}}); err != nil {
+// @Router /user [post]
+func (c *WrUsersController) Create(ctx *gin.Context) {
+	wrUsers := new(et.WrUsers)
+	getPostStructData(ctx, wrUsers)
+	if err := c.serv.Insert(wrUsers); err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 		return
 	}
-	resSuccess(ctx, {{StructFcName}})
+	resSuccess(ctx, wrUsers)
 }
-// @Tags {{StructRoute}}表操作
+// @Tags user表操作
 // @Summary 【update】根据id更新数据
 // @Description 根据id更新数据
 // @Accept x-www-form-urlencoded
 // @Produce json
 // @Param   id	body	string 	true	"主键更新依据此id"
 // @Success 200 {object} SgrResp
-// @Router /{{StructRoute}}/update-by-id [put]
-func (c * {{StructName}}Controller) UpdateById(ctx *gin.Context) {
+// @Router /user/update-by-id [put]
+func (c * WrUsersController) UpdateById(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.PostForm("id"))
-	{{StructFcName}} := new(et.{{StructName}})
-	getPostStructData(ctx, {{StructFcName}})
-	has, err := c.serv.UpdateById(id, {{StructFcName}})
+	wrUsers := new(et.WrUsers)
+	getPostStructData(ctx, wrUsers)
+	has, err := c.serv.UpdateById(id, wrUsers)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 	}else{
@@ -133,4 +131,4 @@ func (c * {{StructName}}Controller) UpdateById(ctx *gin.Context) {
 			})
 		}
 	}
-}`
+}

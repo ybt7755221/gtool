@@ -12,6 +12,7 @@ func {{StructFcName}}Router(router *gin.Engine) {
 	{{StructFcName}}R := router.Group("{{StructRoute}}")
 	{
 		{{StructFcName}}R.GET("/", {{StructFcName}}.Find)
+		{{StructFcName}}R.GET("/one", {{StructFcName}}.FindOne)
 		{{StructFcName}}R.GET("/page", {{StructFcName}}.FindPaging)
 		{{StructFcName}}R.POST("/", {{StructFcName}}.Create)
 		{{StructFcName}}R.GET("/find-by-id/:id", {{StructFcName}}.FindById)

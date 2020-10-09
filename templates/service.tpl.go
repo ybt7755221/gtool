@@ -10,6 +10,13 @@ import (
 type {{StructName}}Service struct {
 }
 /**
+ * 根据多条件查询数据-单条
+ */
+func (c *{{StructName}}Service) FindOne(conditions *et.{{StructName}}) (*et.{{StructName}}, error) {
+	{{StructLcName}}Model := models.{{StructName}}Model{}
+	return {{StructLcName}}Model.FindOne(conditions)
+}
+/**
  * 根据多条件查询数据
  */
 func (c *{{StructName}}Service) Find(conditions *et.{{StructName}}, pagination *et.Pagination) ([]et.{{StructName}}, error) {

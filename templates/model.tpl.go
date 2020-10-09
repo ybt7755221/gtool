@@ -12,6 +12,18 @@ import (
 
 type {{StructName}}Model struct {
 }
+
+//查找单条数据
+func(u *{{StructName}}Model) FindOne(conditions *{{StructName}}) (*{{StructName}}, error) {
+	dbConn := DB.GetDB(Gin)
+	defer dbConn.Close()
+	has, err := dbConn.Get(conditions)
+	if has {
+		return conditions, err
+	}else{
+		return nil, err
+	}
+}
 //查找多条数据
 func(u *{{StructName}}Model) Find(conditions *{{StructName}}, pagination *Pagination )  ([]{{StructName}}, error) {
 	dbConn := DB.GetDB({{StructDB}})
