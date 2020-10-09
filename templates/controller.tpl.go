@@ -18,7 +18,7 @@ type {{StructName}}Controller struct {
 // @Produce json
 // @Param	page_num	query 	int		false	"页数，默认1"
 // @Param	page_size	query 	int		false	"每夜条数，默认50"
-// @Param	sort		query 	string	false	"排序。id desc, time asc"
+// @Param	sort		query 	string	false	"排序 {\"id\":\"desc\"}"
 // @Success 200 {object} SgrResp
 // @Router /{{StructRoute}} [get]
 func (c *{{StructName}}Controller) Find(ctx *gin.Context) {
@@ -42,7 +42,7 @@ func (c *{{StructName}}Controller) Find(ctx *gin.Context) {
 // @Produce json
 // @Param	page_num	query 	int		false	"页数，默认1"
 // @Param	page_size	query 	int		false	"每夜条数，默认50"
-// @Param	sort		query 	string	false	"排序。id desc, time asc"
+// @Param	sort		query 	string	false	"排序 {\"id\":\"desc\"}"
 // @Success 200 {object} SgrResp
 // @Router /{{StructRoute}}/page [get]
 func (c *{{StructName}}Controller) FindPaging(ctx *gin.Context) {
