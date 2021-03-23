@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/droundy/goopt"
-	"strings"
 	"gtool/core"
 	"gtool/templates"
+	"strings"
+
+	"github.com/droundy/goopt"
 )
 
 var (
+	productName = goopt.String([]string{"-p", "--product"}, "", "Product name")
 	sqlTable    = goopt.String([]string{"-t", "--table"}, "", "Table to build struct from")
 	sqlDatabase = goopt.String([]string{"-d", "--database"}, "", "database, database name")
 	routerName  = goopt.String([]string{"-r", "--router"}, "", "routerName, if have this conditon, will create router file")
@@ -44,17 +46,17 @@ func main() {
 	generateService()
 }
 
-func generateController()  {
+func generateController() {
 	var iCore core.ICore
 	var ce core.Core
 	ce.Name = core.LcFirst(*sqlTable)
 	ce.FileDir = *fileDir
 	ce.Format = map[string]string{
-		"{{StructFcName}}" 	: ce.Name,
-		"{{StructName}}"	: core.UcFirst(*sqlTable),
-		"{{StructDB}}"		: core.UcFirst(*sqlDatabase),
-		"{{StructRoute}}" 	: *routerName,
-		"{{StrcutF}}" 		: strings.ToLower(ce.Name[:1]),
+		"{{StructFcName}}": ce.Name,
+		"{{StructName}}":   core.UcFirst(*sqlTable),
+		"{{StructDB}}":     core.UcFirst(*sqlDatabase),
+		"{{StructRoute}}":  *routerName,
+		"{{StrcutF}}":      strings.ToLower(ce.Name[:1]),
 	}
 	iCore = ce
 	iCore.GenerateFile(templates.ControllerTpl, "controllers")
@@ -66,10 +68,10 @@ func generateRoute() {
 	ce.FileDir = *fileDir
 	ce.Name = core.LcFirst(*sqlTable)
 	ce.Format = map[string]string{
-		"{{StructFcName}}" 	: ce.Name,
-		"{{StructName}}"	: core.UcFirst(*sqlTable),
-		"{{StructDB}}"		: core.UcFirst(*sqlDatabase),
-		"{{StructRoute}}" 	: *routerName,
+		"{{StructFcName}}": ce.Name,
+		"{{StructName}}":   core.UcFirst(*sqlTable),
+		"{{StructDB}}":     core.UcFirst(*sqlDatabase),
+		"{{StructRoute}}":  *routerName,
 	}
 	iCore = ce
 	iCore.GenerateFile(templates.RouterTpl, "router")
@@ -82,8 +84,8 @@ func generateService() {
 	ce.Name = core.LcFirst(*sqlTable)
 	ce.Format = map[string]string{
 		"{{StructLcName}}": ce.Name,
-		"{{StructName}}": core.UcFirst(*sqlTable),
-		"{{StructDB}}"	: core.UcFirst(*sqlDatabase),
+		"{{StructName}}":   core.UcFirst(*sqlTable),
+		"{{StructDB}}":     core.UcFirst(*sqlDatabase),
 	}
 	iCore = ce
 	iCore.GenerateFile(templates.ServiceTpl, "service")
@@ -96,8 +98,8 @@ func generateModel() {
 	ce.Name = core.LcFirst(*sqlTable)
 	ce.Format = map[string]string{
 		"{{StructLcName}}": ce.Name,
-		"{{StructName}}": core.UcFirst(*sqlTable),
-		"{{StructDB}}"	: core.UcFirst(*sqlDatabase),
+		"{{StructName}}":   core.UcFirst(*sqlTable),
+		"{{StructDB}}":     core.UcFirst(*sqlDatabase),
 	}
 	iCore = ce
 	iCore.GenerateFile(templates.ModelTpl, "model")
