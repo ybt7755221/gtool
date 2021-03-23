@@ -57,6 +57,7 @@ func generateController() {
 		"{{StructDB}}":     core.UcFirst(*sqlDatabase),
 		"{{StructRoute}}":  *routerName,
 		"{{StrcutF}}":      strings.ToLower(ce.Name[:1]),
+		"{{productName}}":  *productName,
 	}
 	iCore = ce
 	iCore.GenerateFile(templates.ControllerTpl, "controllers")
