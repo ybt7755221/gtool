@@ -3,8 +3,8 @@ package templates
 var ModelTpl = `package models
 
 import (
-	. "gpi/entities"
-	DB "gpi/libraries/database"
+	. "pm-system/entities"
+	DB "pm-system/libraries/database"
 	"errors"
 	"fmt"
 	"strings"
@@ -51,6 +51,25 @@ func(u *{{StructName}}Model) Find(conditions *{{StructName}}, pagination *Pagina
 	//执行查找
 	err := dbC.Find(&{{StructLcName}}Page.List, conditions)
 	return {{StructLcName}}Page.List, err
+}
+
+//查找所有数据
+func (u *{{StructName}}Model) FindAll(conditions *{{StructName}}, sort map[string]string) ([]{{StructName}}, error) {
+	{{StructLcName}}List := new({{StructName}}PageDao).List
+	dbConn := DB.GetDB(Gin).NoCache()
+	//排序
+	if len(sort) > 0 {
+		for key, val := range sort {
+			if strings.ToLower(val) == "asc" {
+				dbConn = dbConn.Asc(key)
+			} else {
+				dbConn = dbConn.Desc(key)
+			}
+		}
+	}
+	err := dbConn.Find(&{{StructLcName}}List, conditions)
+	defer dbConn.Close()
+	return {{StructLcName}}List, err
 }
 
 //查找多条数据-分页

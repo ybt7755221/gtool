@@ -3,8 +3,8 @@ package templates
 var ControllerTpl = `package controllers
 
 import (
-	et "gpi/entities"
-	"gpi/service"
+	et "pm-system/entities"
+	"pm-system/service"
 	"github.com/gin-gonic/gin"
 	"strconv"
 )

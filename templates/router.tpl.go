@@ -3,7 +3,7 @@ package templates
 var RouterTpl = `package router
 
 import (
-	. "gpi/controllers"
+	. "pm-system/controllers"
 	"github.com/gin-gonic/gin"
 )
 

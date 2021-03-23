@@ -3,8 +3,8 @@ package templates
 var ServiceTpl = `package service
 
 import (
-	et "gpi/entities"
-	"gpi/models"
+	et "pm-system/entities"
+	"pm-system/models"
 )
 
 type {{StructName}}Service struct {
@@ -27,7 +27,14 @@ func (c *{{StructName}}Service) Find(conditions *et.{{StructName}}, pagination *
 	}
 	return {{StructLcName}}Page, nil
 }
-
+/**
+ * 获取所有
+ */
+func (c *{{StructName}}Service) FindAll(condition *et.{{StructName}}, sort map[string]string) ([]et.{{StructName}}, error) {
+	{{StructLcName}}Model := models.{{StructName}}Model{}
+	{{StructLcName}}List, err := {{StructLcName}}Model.FindAll(condition, sort)
+	return {{StructLcName}}List, err
+}
 /**
  * 根据多条件查询数据-分页
  */
