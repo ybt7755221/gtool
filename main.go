@@ -23,7 +23,7 @@ func init() {
 		return "Gtool is automaticlly generate clue-api model"
 	}
 	goopt.Version = "0.1"
-	goopt.Summary = `Gtool --table tableName --database dbName --router routeName --controller true --file-path ./`
+	goopt.Summary = `Gtool --product productName --table tableName --database dbName --router routeName --controller true --file-path ./`
 	goopt.Parse(nil)
 }
 

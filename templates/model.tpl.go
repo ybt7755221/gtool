@@ -3,8 +3,8 @@ package templates
 var ModelTpl = `package models
 
 import (
-	. "{{productName}}/entities"
-	DB "{{productName}}/libraries/database"
+	. "pm-system/entities"
+	DB "pm-system/libraries/database"
 	"errors"
 	"fmt"
 	"strings"

@@ -1,13 +1,13 @@
 package controllers
 
 import (
-	et "gpi/entities"
-	"gpi/service"
+	et "pm-system/entities"
+	"pm-system/service"
 	"github.com/gin-gonic/gin"
 	"strconv"
 )
-type WrUsersController struct {
-	serv *service.WrUsersService
+type WrProjectsController struct {
+	serv *service.WrProjectsService
 }
 // @Tags user表操作
 // @Summary 【GetOne】根据条件获取单条数据
@@ -16,17 +16,17 @@ type WrUsersController struct {
 // @Produce json
 // @Success 200 {object} SgrResp
 // @Router /user/one [get]
-func (c *WrUsersController) FindOne(ctx *gin.Context) {
-	wrUsers := new(et.WrUsers)
-	getParamsNew(ctx, WrUsers)
-	res, err := c.serv.FindOne(wrUsers)
+func (c *WrProjectsController) FindOne(ctx *gin.Context) {
+	wrProjects := new(et.WrProjects)
+	getParamsNew(ctx, wrProjects)
+	res, err := c.serv.FindOne(wrProjects)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 	}else{
 		resSuccess(ctx, res)
 	}
 }
-// @Tags user表操作
+// @Tags projects表操作
 // @Summary 【GetAll】根据条件获取信息
 // @Description 根据条件获取信息
 // @Accept html
@@ -35,22 +35,22 @@ func (c *WrUsersController) FindOne(ctx *gin.Context) {
 // @Param	page_size	query 	int		false	"每夜条数，默认50"
 // @Param	sort		query 	string	false	"排序 {\"id\":\"desc\"}"
 // @Success 200 {object} SgrResp
-// @Router /user [get]
-func (c *WrUsersController) Find(ctx *gin.Context) {
-	wrUsers := new(et.WrUsers)
-	getParamsNew(ctx, wrUsers)
+// @Router /projects [get]
+func (c *WrProjectsController) Find(ctx *gin.Context) {
+	wrProjects := new(et.WrProjects)
+	getParamsNew(ctx, wrProjects)
 	pagination := new(et.Pagination)
 	pagination.PageNum, _ = strconv.Atoi(ctx.Query("page_num"))
 	pagination.PageSize, _ = strconv.Atoi(ctx.Query("page_size"))
 	pagination.SortStr = ctx.Query("sort")
-	wrUsersList, err := c.serv.Find(wrUsers, pagination)
+	wrProjectsList, err := c.serv.Find(wrProjects, pagination)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 		return
 	}
-	resSuccess(ctx, wrUsersList)
+	resSuccess(ctx, wrProjectsList)
 }
-// @Tags user表操作
+// @Tags projects表操作
 // @Summary 【GetAll】根据条件获取信息
 // @Description 根据条件获取信息
 // @Accept html
@@ -59,67 +59,67 @@ func (c *WrUsersController) Find(ctx *gin.Context) {
 // @Param	page_size	query 	int		false	"每夜条数，默认50"
 // @Param	sort		query 	string	false	"排序 {\"id\":\"desc\"}"
 // @Success 200 {object} SgrResp
-// @Router /user/page [get]
-func (c *WrUsersController) FindPaging(ctx *gin.Context) {
-	wrUsers := new(et.WrUsers)
-	getParamsNew(ctx, wrUsers)
+// @Router /projects/page [get]
+func (c *WrProjectsController) FindPaging(ctx *gin.Context) {
+	wrProjects := new(et.WrProjects)
+	getParamsNew(ctx, wrProjects)
 	pagination := new(et.Pagination)
 	pagination.PageNum, _ = strconv.Atoi(ctx.Query("page_num"))
 	pagination.PageSize, _ = strconv.Atoi(ctx.Query("page_size"))
 	pagination.SortStr = ctx.Query("sort")
-	wrUsersList, err := c.serv.FindPaging(wrUsers, pagination)
+	wrProjectsList, err := c.serv.FindPaging(wrProjects, pagination)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 		return
 	}
-	resSuccess(ctx, wrUsersList)
+	resSuccess(ctx, wrProjectsList)
 }
-// @Tags user表操作
+// @Tags projects表操作
 // @Summary 【GetOne】根据id获取信息
 // @Description 根据id获取信息
 // @Accept html
 // @Produce json
 // @Param   id		path	string 	false	"主键id"
 // @Success 200 {object} SgrResp
-// @Router /user/find-by-id/{id} [get]
-func (c *WrUsersController) FindById(ctx *gin.Context) {
+// @Router /projects/find-by-id/{id} [get]
+func (c *WrProjectsController) FindById(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Param("id"))
-	wrUsers, err := c.serv.FindById(id)
+	wrProjects, err := c.serv.FindById(id)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 	}else{
-		resSuccess(ctx, wrUsers)
+		resSuccess(ctx, wrProjects)
 	}
 }
-// @Tags user表操作
-// @Summary 【create】创建user信息
-// @Description 创建user信息
+// @Tags projects表操作
+// @Summary 【create】创建projects信息
+// @Description 创建projects信息
 // @Accept x-www-form-urlencoded
 // @Produce json
 // @Success 200 {object} SgrResp
-// @Router /user [post]
-func (c *WrUsersController) Create(ctx *gin.Context) {
-	wrUsers := new(et.WrUsers)
-	getPostStructData(ctx, wrUsers)
-	if err := c.serv.Insert(wrUsers); err != nil {
+// @Router /projects [post]
+func (c *WrProjectsController) Create(ctx *gin.Context) {
+	wrProjects := new(et.WrProjects)
+	getPostStructData(ctx, wrProjects)
+	if err := c.serv.Insert(wrProjects); err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 		return
 	}
-	resSuccess(ctx, wrUsers)
+	resSuccess(ctx, wrProjects)
 }
-// @Tags user表操作
+// @Tags projects表操作
 // @Summary 【update】根据id更新数据
 // @Description 根据id更新数据
 // @Accept x-www-form-urlencoded
 // @Produce json
 // @Param   id	body	string 	true	"主键更新依据此id"
 // @Success 200 {object} SgrResp
-// @Router /user/update-by-id [put]
-func (c * WrUsersController) UpdateById(ctx *gin.Context) {
+// @Router /projects/update-by-id [put]
+func (c * WrProjectsController) UpdateById(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.PostForm("id"))
-	wrUsers := new(et.WrUsers)
-	getPostStructData(ctx, wrUsers)
-	has, err := c.serv.UpdateById(id, wrUsers)
+	wrProjects := new(et.WrProjects)
+	getPostStructData(ctx, wrProjects)
+	has, err := c.serv.UpdateById(id, wrProjects)
 	if err != nil {
 		resError(ctx, et.EntityFailure, err.Error())
 	}else{
@@ -131,4 +131,16 @@ func (c * WrUsersController) UpdateById(ctx *gin.Context) {
 			})
 		}
 	}
+}
+
+func (c *WrProjectsController) FindAll(ctx *gin.Context) {
+	wrProjects := new(et.WrProjects)
+	getParamsNew(ctx, wrProjects)
+	sort := getSort(ctx.Query("sort"))
+	wrProjectsList, err := c.serv.FindAll(wrProjects, sort)
+	if err != nil {
+		resError(ctx, et.EntityFailure, err.Error())
+		return
+	}
+	resSuccess(ctx, wrProjectsList)
 }

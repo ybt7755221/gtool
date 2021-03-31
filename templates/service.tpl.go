@@ -3,8 +3,8 @@ package templates
 var ServiceTpl = `package service
 
 import (
-	et "{{productName}}/entities"
-	"{{productName}}/models"
+	et "pm-system/entities"
+	"pm-system/models"
 )
 
 type {{StructName}}Service struct {

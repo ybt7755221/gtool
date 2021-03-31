@@ -3,7 +3,7 @@ package templates
 var RouterTpl = `package router
 
 import (
-	. "{{productName}}/controllers"
+	. "pm-system/controllers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +15,7 @@ func {{StructFcName}}Router(router *gin.Engine) {
 		{{StructFcName}}R.GET("/one", {{StructFcName}}.FindOne)
 		{{StructFcName}}R.GET("/page", {{StructFcName}}.FindPaging)
 		{{StructFcName}}R.POST("/", {{StructFcName}}.Create)
+		{{StructFcName}}R.GET("/find-all", {{StructFcName}}.FindAll)
 		{{StructFcName}}R.GET("/find-by-id/:id", {{StructFcName}}.FindById)
 		{{StructFcName}}R.PUT("/update-by-id", {{StructFcName}}.UpdateById)
 	}
